@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
+    <!-- icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <title>Budgetku-App</title>
   </head>
   <body>
@@ -14,7 +16,7 @@
       <img src="img/Logo.png" alt="Logo" class="logo" />
       <h1>Budgetku.</h1>
     </header>
-    <main class="container budgets">
+    <main class="container budgets hidden">
       <div class="card_budget">
         <h2 class="budget_name">makan & minum</h2>
         <p class="budget_amount">Rp 120.000</p>
@@ -26,6 +28,78 @@
         <p class="total_amount">Rp 1.000.000</p>
       </div>
       <button class="add_budget">+</button>
+    </main>
+
+    <main id="btn_backhome" class="container">
+      <button class="back_home">
+        <i class="ph ph-caret-left icon_back"></i>
+        Halaman Utama
+      </button>
+    </main>
+
+    <main id="budget_details" class="container">
+      <div class="card_budget">
+        <div>
+          <h2 class="budget_name">makan & minum</h2>
+          <p class="budget_amount">Rp 120.000</p>
+          <p class="total_amount">Rp 1.000.000</p>
+        </div>
+        <div class="icon">
+          <i class="ph ph-pencil"></i>
+        </div>
+      </div>
+      <button class="add_expend">
+        +
+        <p>Catat Pengeluaran</p>
+      </button>
+
+      <div class="sort_spent">
+        <i class="ph ph-arrows-down-up"></i>
+        <select name="" id="">
+          <option value="">Tanggal terbaru</option>
+          <option value="">Nama</option>
+          <option value="">Terkecil</option>
+          <option value="">Terbesar</option>
+        </select>
+      </div>
+      <div class="spent">
+        <div class="spent_items">
+          <div class="spent_items_description">
+            <h4>Bakso</h4>
+            <p>2025-01-10</p>
+          </div>
+          <div class="spent_items_price">
+            <p>Rp 12.000</p>
+          </div>
+        </div>
+        <div class="spent_items">
+          <div class="spent_items_description">
+            <h4>Bakso</h4>
+            <p>2025-01-10</p>
+          </div>
+          <div class="spent_items_price">
+            <p>Rp 12.000</p>
+          </div>
+        </div>
+        <div class="spent_items">
+          <div class="spent_items_description">
+            <h4>Bakso</h4>
+            <p>2025-01-10</p>
+          </div>
+          <div class="spent_items_price">
+            <p>Rp 12.000</p>
+          </div>
+        </div>
+        <div class="spent_items">
+          <div class="spent_items_description">
+            <h4>Bakso</h4>
+            <p>2025-01-10</p>
+          </div>
+          <div class="spent_items_price">
+            <p>Rp 12.000</p>
+          </div>
+        </div>
+      </div>
     </main>
   </body>
 </html>
