@@ -16,7 +16,7 @@
       <img src="img/Logo.png" alt="Logo" class="logo" />
       <h1>Budgetku.</h1>
     </header>
-    <main class="container budgets hidden">
+    <main class="container budgets hidden" id="budgets">
       <div class="card_budget">
         <h2 class="budget_name">makan & minum</h2>
         <p class="budget_amount">Rp 120.000</p>
@@ -30,14 +30,13 @@
       <button class="add_budget">+</button>
     </main>
 
-    <main id="btn_backhome" class="container">
-      <button class="back_home">
-        <i class="ph ph-caret-left icon_back"></i>
-        Halaman Utama
-      </button>
-    </main>
-
     <main id="budget_details" class="container">
+      <main id="btn_backhome" class="container">
+        <button class="back_home">
+          <i class="ph ph-caret-left icon_back"></i>
+          Halaman Utama
+        </button>
+      </main>
       <div class="card_budget">
         <div>
           <h2 class="budget_name">makan & minum</h2>
@@ -102,7 +101,22 @@
       </div>
     </main>
 
-    <div class="modal">
+    <div class="modal hidden" id="modal_form">
+      <div class="card_modal">
+        <div class="modal_heading">
+          <h4>Tambah Budget</h4>
+          <i class="ph ph-x-circle"></i>
+        </div>
+        <form action="">
+          <label for="">Budgeting for</label>
+          <input type="text" required />
+          <label for="">Jumlah</label>
+          <input type="number" required />
+          <button>simpan</button>
+        </form>
+      </div>
+    </div>
+    <div class="modal hidden" id="spentmodal_form">
       <div class="card_modal">
         <div class="modal_heading">
           <h4>Tambah Budget</h4>
@@ -118,4 +132,5 @@
       </div>
     </div>
   </body>
+  <script src="script.js"></script>
 </html>
