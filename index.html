@@ -12,6 +12,7 @@
     <title>Budgetku-App</title>
   </head>
   <body>
+    <div class="notif_wrapper" id="notification"></div>
     <header class="container">
       <img src="img/Logo.png" alt="Logo" class="logo" />
       <h1>Budgetku.</h1>
@@ -109,9 +110,9 @@
         </div>
         <form action="">
           <label for="">Budgeting for</label>
-          <input type="text" required />
+          <input type="text" required name="nama_budget" />
           <label for="">Jumlah</label>
-          <input type="number" required />
+          <input type="number" required name="total_budget" />
           <button>simpan</button>
         </form>
       </div>

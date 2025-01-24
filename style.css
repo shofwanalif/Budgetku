@@ -256,6 +256,35 @@ button {
   background-color: #4846cc;
 }
 
+.notif_wrapper {
+  position: absolute;
+  width: 100%;
+}
+
+.notification {
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.756);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(206, 203, 203);
+  animation: slidedown 1s ease-in-out;
+}
+
+@keyframes slidedown {
+  from {
+    transform: translateY(-1rem);
+    opacity: 80%;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 100%;
+  }
+}
+
+/* responsive */
 @media (max-width: 768px) {
   .budgets {
     padding: 1rem;
