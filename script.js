@@ -1,8 +1,8 @@
 const backHomeBtn = document.querySelector('#btn_backhome button.back_home');
 const budgetsPage = document.getElementById('budgets');
+tampilBudget();
 const budgetDetails = document.querySelector('#budget_details');
-const cardBudgets = document.querySelectorAll('#budgets .card_budget');
-const addBudgetBtn = document.querySelector('#budgets button');
+
 const modalForm = document.getElementById('modal_form');
 const spentModalForm = document.getElementById('spentmodal_form');
 const closeModal = document.querySelector('#modal_form .modal_heading i');
@@ -10,20 +10,42 @@ const addExpendBtn = document.querySelector('#budget_details button.add_expend')
 const closeExpend = document.querySelector('#spentmodal_form .modal_heading i');
 const notification = document.getElementById('notification');
 
+function tampilBudget() {
+  const budgetData = getExistingData();
+  const budgetList = budgetData
+    .map((budget) => {
+      return ` <div class="card_budget">
+        <h2 class="budget_name">${budget.nama_budget}</h2>
+        <p class="budget_amount">Rp ${budget.total_budget}</p>
+        <p class="total_amount">Rp ${budget.total_budget}</p>
+      </div>`;
+    })
+    .concat([`<button class="add_budget">+</button>`])
+    .join('');
+
+  budgetsPage.innerHTML = budgetList;
+  selectBudgetCards();
+}
+
+function selectBudgetCards() {
+  const cardBudgets = document.querySelectorAll('#budgets .card_budget');
+  const addBudgetBtn = document.querySelector('#budgets button');
+
+  cardBudgets.forEach((card) => {
+    card.addEventListener('click', () => {
+      budgetDetails.classList.remove('hidden');
+      budgetsPage.classList.add('hidden');
+    });
+  });
+
+  addBudgetBtn.addEventListener('click', () => {
+    modalForm.classList.remove('hidden');
+  });
+}
+
 backHomeBtn.addEventListener('click', () => {
   budgetDetails.classList.add('hidden');
   budgetsPage.classList.remove('hidden');
-});
-
-cardBudgets.forEach((card) => {
-  card.addEventListener('click', () => {
-    budgetDetails.classList.remove('hidden');
-    budgetsPage.classList.add('hidden');
-  });
-});
-
-addBudgetBtn.addEventListener('click', () => {
-  modalForm.classList.remove('hidden');
 });
 
 closeModal.addEventListener('click', () => {
@@ -54,9 +76,12 @@ function getFormValue(formData) {
 
   return result;
 }
+function getExistingData() {
+  return JSON.parse(localStorage.getItem('Budgets')) ?? [];
+}
 
 function saveData(databaru) {
-  const existingData = JSON.parse(localStorage.getItem('Budgets')) ?? [];
+  const existingData = getExistingData();
   existingData.push(databaru);
   localStorage.setItem('Budgets', JSON.stringify(existingData));
 }
@@ -87,4 +112,5 @@ document.querySelector('#modal_form form').addEventListener('submit', (e) => {
   closeModalBudget();
   resetInput();
   showNotif('✅ Budget berhasil di catat!');
+  tampilBudget();
 });
