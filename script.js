@@ -14,7 +14,7 @@ function tampilBudget() {
   const budgetData = getExistingData();
   const budgetList = budgetData
     .map((budget) => {
-      return ` <div class="card_budget">
+      return ` <div class="card_budget" BudgetID="${budget.id}">
         <h2 class="budget_name">${budget.nama_budget}</h2>
         <p class="budget_amount">Rp ${budget.total_budget}</p>
         <p class="total_amount">Rp ${budget.total_budget}</p>
@@ -33,6 +33,8 @@ function selectBudgetCards() {
 
   cardBudgets.forEach((card) => {
     card.addEventListener('click', () => {
+      const budgetID = card.getAttribute('BudgetID');
+      renderBudgetDetail(budgetID);
       budgetDetails.classList.remove('hidden');
       budgetsPage.classList.add('hidden');
     });
@@ -86,6 +88,10 @@ function saveData(databaru) {
   localStorage.setItem('Budgets', JSON.stringify(existingData));
 }
 
+function generateID() {
+  return new Date().getTime();
+}
+
 function resetInput() {
   document.querySelectorAll('form input').forEach((input) => {
     input.value = '';
@@ -104,11 +110,22 @@ function showNotif(message) {
   }, 1800);
 }
 
+function renderBudgetDetail(budgetID) {
+  const budgetData = getExistingData();
+  const selectedBudget = budgetData.filter((budget) => budget.id == budgetID)[0];
+  console.log(selectedBudget);
+
+  document.querySelector('#budget_details h2').innerText = selectedBudget.nama_budget;
+  document.querySelector('#budget_details p.budget_amount').innerText = `Rp ${selectedBudget.total_budget}`;
+  document.querySelector('#budget_details p.total_amount').innerText = `Rp ${selectedBudget.total_budget}`;
+}
+
 // submit form
 document.querySelector('#modal_form form').addEventListener('submit', (e) => {
   e.preventDefault();
   const data = getFormValue(new FormData(e.target));
-  saveData(data);
+  const dataWithID = { ...data, id: generateID() };
+  saveData(dataWithID);
   closeModalBudget();
   resetInput();
   showNotif('✅ Budget berhasil di catat!');
