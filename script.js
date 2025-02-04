@@ -35,6 +35,7 @@ function selectBudgetCards() {
     card.addEventListener('click', () => {
       const budgetID = card.getAttribute('BudgetID');
       renderBudgetDetail(budgetID);
+      renderPengeluaran(budgetID);
       budgetDetails.classList.remove('hidden');
       budgetsPage.classList.add('hidden');
     });
@@ -43,6 +44,25 @@ function selectBudgetCards() {
   addBudgetBtn.addEventListener('click', () => {
     modalForm.classList.remove('hidden');
   });
+}
+
+function renderPengeluaran(budgetId) {
+  const detailPengeluaran = document.querySelector('#budget_details .spent');
+  const { pengeluaran } = getBudgetByID(budgetId);
+  const listPengeluaran = pengeluaran
+    .map((pengeluaran) => {
+      return `<div class="spent_items">
+          <div class="spent_items_description">
+            <h4>${pengeluaran.namaPengeluaran}</h4>
+            <p>${pengeluaran.tanggal}</p>
+          </div>
+          <div class="spent_items_price">
+            <p>Rp ${pengeluaran.total}</p>
+          </div>
+        </div>`;
+    })
+    .join('');
+  detailPengeluaran.innerHTML = listPengeluaran;
 }
 
 backHomeBtn.addEventListener('click', () => {
@@ -158,10 +178,12 @@ document.querySelector('#modal_form form').addEventListener('submit', (e) => {
 
 //submit pengeluaran
 document.querySelector('#spentmodal_form form').addEventListener('submit', (e) => {
+  const budgetiD = document.querySelector('#budget_details .card_budget').getAttribute('BudgetID');
   e.preventDefault();
   const data = getFormValue(new FormData(e.target));
   addPengeluaran(data);
   clsoeModalSpent();
   showNotif('✅ Pengeluaran berhasil di catat!');
+  renderPengeluaran(budgetiD);
   resetInput();
 });
