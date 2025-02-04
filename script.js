@@ -63,7 +63,7 @@ addExpendBtn.addEventListener('click', () => {
 });
 
 closeExpend.addEventListener('click', () => {
-  spentModalForm.classList.add('hidden');
+  clsoeModalSpent();
 });
 
 function getFormValue(formData) {
@@ -78,6 +78,12 @@ function getFormValue(formData) {
 
   return result;
 }
+
+function getBudgetByID(budgetID) {
+  const budgetData = getExistingData();
+  return budgetData.filter((budget) => budget.id == budgetID)[0];
+}
+
 function getExistingData() {
   return JSON.parse(localStorage.getItem('Budgets')) ?? [];
 }
@@ -111,13 +117,31 @@ function showNotif(message) {
 }
 
 function renderBudgetDetail(budgetID) {
-  const budgetData = getExistingData();
-  const selectedBudget = budgetData.filter((budget) => budget.id == budgetID)[0];
-  console.log(selectedBudget);
+  const selectedBudget = getBudgetByID(budgetID);
 
+  document.querySelector('#budget_details .card_budget').setAttribute('BudgetID', budgetID);
   document.querySelector('#budget_details h2').innerText = selectedBudget.nama_budget;
   document.querySelector('#budget_details p.budget_amount').innerText = `Rp ${selectedBudget.total_budget}`;
   document.querySelector('#budget_details p.total_amount').innerText = `Rp ${selectedBudget.total_budget}`;
+}
+
+function addPengeluaran(data) {
+  const budgetID = document.querySelector('#budget_details .card_budget').getAttribute('BudgetID');
+  const budgetData = getBudgetByID(budgetID);
+  const currentSpent = budgetData.pengeluaran ?? [];
+  const budgetWithSpent = { ...budgetData, pengeluaran: [...currentSpent, data] };
+  const allBudgets = getExistingData();
+  const updatedBudgets = allBudgets.map((budget) => {
+    if (budget.id == budgetID) {
+      return budgetWithSpent;
+    } else return budget;
+  });
+
+  localStorage.setItem('Budgets', JSON.stringify(updatedBudgets));
+}
+
+function clsoeModalSpent() {
+  spentModalForm.classList.add('hidden');
 }
 
 // submit form
@@ -130,4 +154,14 @@ document.querySelector('#modal_form form').addEventListener('submit', (e) => {
   resetInput();
   showNotif('✅ Budget berhasil di catat!');
   tampilBudget();
+});
+
+//submit pengeluaran
+document.querySelector('#spentmodal_form form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const data = getFormValue(new FormData(e.target));
+  addPengeluaran(data);
+  clsoeModalSpent();
+  showNotif('✅ Pengeluaran berhasil di catat!');
+  resetInput();
 });
