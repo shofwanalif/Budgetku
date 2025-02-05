@@ -14,10 +14,11 @@ function tampilBudget() {
   const budgetData = getExistingData();
   const budgetList = budgetData
     .map((budget) => {
+      const sisaBudget = hitungSisaBudget(budget);
       return ` <div class="card_budget" BudgetID="${budget.id}">
         <h2 class="budget_name">${budget.nama_budget}</h2>
-        <p class="budget_amount">Rp ${budget.total_budget}</p>
-        <p class="total_amount">Rp ${budget.total_budget}</p>
+        <p class="budget_amount">Rp ${sisaBudget}</p>
+        <p class="total_amount">Total Budget Rp ${budget.total_budget}</p>
       </div>`;
     })
     .concat([`<button class="add_budget">+</button>`])
@@ -25,6 +26,12 @@ function tampilBudget() {
 
   budgetsPage.innerHTML = budgetList;
   selectBudgetCards();
+}
+
+function hitungSisaBudget(data) {
+  const totalPengeluaran = data.pengeluaran?.map((pengeluaran) => +pengeluaran.total).reduce((total, jumlah) => total + jumlah);
+
+  return +data.total_budget - totalPengeluaran;
 }
 
 function selectBudgetCards() {
@@ -138,11 +145,12 @@ function showNotif(message) {
 
 function renderBudgetDetail(budgetID) {
   const selectedBudget = getBudgetByID(budgetID);
+  const sisaBudget = hitungSisaBudget(selectedBudget);
 
   document.querySelector('#budget_details .card_budget').setAttribute('BudgetID', budgetID);
   document.querySelector('#budget_details h2').innerText = selectedBudget.nama_budget;
-  document.querySelector('#budget_details p.budget_amount').innerText = `Rp ${selectedBudget.total_budget}`;
-  document.querySelector('#budget_details p.total_amount').innerText = `Rp ${selectedBudget.total_budget}`;
+  document.querySelector('#budget_details p.budget_amount').innerText = `Rp ${sisaBudget}`;
+  document.querySelector('#budget_details p.total_amount').innerText = `Total Budget Rp ${selectedBudget.total_budget}`;
 }
 
 function addPengeluaran(data) {
