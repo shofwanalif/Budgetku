@@ -17,8 +17,8 @@ function tampilBudget() {
       const sisaBudget = hitungSisaBudget(budget);
       return ` <div class="card_budget" BudgetID="${budget.id}">
         <h2 class="budget_name">${budget.nama_budget}</h2>
-        <p class="budget_amount">Rp ${sisaBudget}</p>
-        <p class="total_amount">Total Budget Rp ${budget.total_budget}</p>
+        <p class="budget_amount">${formatRupiah(sisaBudget)}</p>
+        <p class="total_amount">Total Budget ${formatRupiah(budget.total_budget)}</p>
       </div>`;
     })
     .concat([`<button class="add_budget">+</button>`])
@@ -64,7 +64,7 @@ function renderPengeluaran(budgetId) {
             <p>${pengeluaran.tanggal}</p>
           </div>
           <div class="spent_items_price">
-            <p>Rp ${pengeluaran.total}</p>
+            <p>${formatRupiah(pengeluaran.total)}</p>
           </div>
         </div>`;
     })
@@ -149,8 +149,8 @@ function renderBudgetDetail(budgetID) {
 
   document.querySelector('#budget_details .card_budget').setAttribute('BudgetID', budgetID);
   document.querySelector('#budget_details h2').innerText = selectedBudget.nama_budget;
-  document.querySelector('#budget_details p.budget_amount').innerText = `Rp ${sisaBudget}`;
-  document.querySelector('#budget_details p.total_amount').innerText = `Total Budget Rp ${selectedBudget.total_budget}`;
+  document.querySelector('#budget_details p.budget_amount').innerText = `${formatRupiah(sisaBudget)}`;
+  document.querySelector('#budget_details p.total_amount').innerText = `Total Budget ${formatRupiah(selectedBudget.total_budget)}`;
 }
 
 function addPengeluaran(data) {
@@ -195,3 +195,11 @@ document.querySelector('#spentmodal_form form').addEventListener('submit', (e) =
   renderPengeluaran(budgetiD);
   resetInput();
 });
+
+function formatRupiah(angka) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(angka);
+}
